@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExpenseContext AI</title>
+<style>
+:root{--p:#2563eb;--s:#16a34a;--w:#ca8a04;--d:#dc2626;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g500:#6b7280;--g900:#111827}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:var(--g50);color:var(--g900);line-height:1.5}
+.hdr{background:#fff;border-bottom:1px solid var(--g200);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo-icon{width:36px;height:36px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}
+.logo-text h1{font-size:1.25rem;font-weight:600}
+.logo-text span{font-size:.75rem;color:var(--g500)}
+.dot{width:8px;height:8px;background:var(--s);border-radius:50%;display:inline-block}
+.container{max-width:1200px;margin:0 auto;padding:2rem}
+.page-title{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat{background:#fff;border-radius:8px;padding:1.25rem;border:1px solid var(--g200)}
+.stat .lbl{font-size:.75rem;color:var(--g500);text-transform:uppercase}
+.stat .val{font-size:1.75rem;font-weight:600;margin-top:.25rem}
+.stat .val.fl{color:var(--w)}.stat .val.pd{color:var(--p)}.stat .val.ap{color:var(--s)}
+.list{background:#fff;border-radius:8px;border:1px solid var(--g200)}
+.list-hdr{padding:1rem 1.5rem;border-bottom:1px solid var(--g200);font-weight:600}
+.item{display:grid;grid-template-columns:1fr 1fr 1fr 100px 120px 150px;padding:1rem 1.5rem;border-bottom:1px solid var(--g100);align-items:center}
+.item:last-child{border-bottom:none}
+.item:hover{background:var(--g50)}
+.emp{font-weight:500}.emp-id{font-size:.75rem;color:var(--g500)}
+.desc{font-size:.875rem;color:var(--g700)}.amt{font-weight:600}
+.date{font-size:.875rem;color:var(--g500)}
+.badge{display:inline-block;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500}
+.flagged{background:#fef3c7;color:#92400e}
+.btn{background:var(--p);color:#fff;border:none;padding:.5rem 1rem;border-radius:6px;font-size:.875rem;font-weight:500;cursor:pointer}
+.btn:hover{background:#1d4ed8}
+.panel{position:fixed;top:0;right:0;width:600px;height:100vh;background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);z-index:100;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column}
+.panel.open{transform:translateX(0)}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:auto}
+.panel-hdr{padding:1.5rem;border-bottom:1px solid var(--g200);display:flex;justify-content:space-between;align-items:center}
+.panel-hdr h2{font-size:1.125rem;font-weight:600}
+.xbtn{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--g500)}
+.panel-body{flex:1;overflow-y:auto;padding:1.5rem}
+.spinner{width:48px;height:48px;border:4px solid var(--g200);border-top-color:var(--p);border-radius:50%;animation:spin 1s linear infinite;margin:2rem auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sec{margin-bottom:1.5rem}
+.sec h3{font-size:.75rem;font-weight:600;color:var(--g500);text-transform:uppercase;margin-bottom:.75rem}
+.box{background:var(--g50);border:1px solid var(--g200);border-radius:8px;padding:1rem;font-size:.9375rem;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.card{background:var(--g50);border:1px solid var(--g200);border-radius:6px;padding:.75rem;text-align:center}
+.card .lbl{font-size:.7rem;color:var(--g500)}
+.card .val{font-weight:600;margin-top:.25rem}
+.ring{width:60px;height:60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto .5rem;border:4px solid}
+.ring.hi{border-color:var(--s);color:var(--s)}.ring.me{border-color:var(--w);color:var(--w)}.ring.lo{border-color:var(--d);color:var(--d)}
+.ring .n{font-size:1rem;font-weight:700}.ring .t{font-size:.5rem;text-transform:uppercase}
+.risk{display:inline-block;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:600;text-transform:uppercase}
+.risk.hi{background:#fee2e2;color:#991b1b}.risk.me{background:#fef3c7;color:#92400e}.risk.lo{background:#dcfce7;color:#166534}
+.facts{list-style:none}
+.facts li{padding:.5rem 0;border-bottom:1px solid var(--g100);font-size:.875rem}
+.facts li:last-child{border-bottom:none}
+.facts li::before{content:"•";color:var(--p);font-weight:bold;margin-right:.5rem}
+.agent{background:var(--g50);border:1px solid var(--g200);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+.agent-hdr{padding:.5rem .75rem;background:#fff;border-bottom:1px solid var(--g200);display:flex;justify-content:space-between;font-size:.8rem}
+.agent-name{font-weight:600}
+.agent-type{color:var(--g500);font-size:.65rem;background:var(--g100);padding:.125rem .5rem;border-radius:4px}
+.agent-body{padding:.75rem;font-size:.8rem;color:var(--g700)}
+.agent-meta{display:flex;gap:1rem;font-size:.7rem;color:var(--g500);margin-top:.5rem}
+.actions{padding:1.5rem;border-top:1px solid var(--g200);display:flex;gap:.75rem}
+.btn-action{flex:1;padding:.75rem;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;border:none}
+.btn-approve{background:var(--s);color:#fff}
+.btn-reject{background:var(--d);color:#fff}
+.btn-review{background:var(--g200);color:var(--g900)}
+@media(max-width:768px){.item{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}.panel{width:100%}}
+</style>
+</head>
+<body>
+<header class="hdr">
+<div class="logo"><div class="logo-icon">EC</div><div class="logo-text"><h1>ExpenseContext AI</h1><span>AI-Native Expense Investigation</span></div></div>
+<div style="display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--g500)"><span class="dot"></span> System Online</div>
+</header>
+<main class="container">
+<h2 class="page-title">Flagged Expenses</h2>
+<div class="stats">
+<div class="stat"><div class="lbl">Total Flagged</div><div class="val fl" id="s1">4</div></div>
+<div class="stat"><div class="lbl">In Review</div><div class="val pd" id="s2">0</div></div>
+<div class="stat"><div class="lbl">Approved Today</div><div class="val ap" id="s3">0</div></div>
+<div class="stat"><div class="lbl">Rejected Today</div><div class="val" id="s4" style="color:var(--d)">0</div></div>
+</div>
+<div class="list">
+<div class="list-hdr"><span id="cnt">4</span> expenses awaiting review</div>
+<div id="list"></div>
+</div>
+</main>
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="panel" id="panel">
+<div class="panel-hdr"><h2>AI Investigation</h2><button class="xbtn" onclick="closePanel()">×</button></div>
+<div class="panel-body" id="body"></div>
+<div class="actions" id="actions" style="display:none">
+<button class="btn-action btn-approve" onclick="approve()">Approve</button>
+<button class="btn-action btn-review" onclick="review()">Mark for Review</button>
+<button class="btn-action btn-reject" onclick="reject()">Reject</button>
+</div>
+</div>
+<script>
+const API="http://localhost:5000/api";
+let cur=null;
+async function load(){try{const r=await fetch(API+"/expenses");const d=await r.json();const es=d.expenses.filter(e=>e.status==="flagged");document.getElementById("list").innerHTML=es.map(e=>`<div class="item"><div><div class="emp">${e.employee_name}</div><div class="emp-id">${e.id}</div></div><div class="desc">${e.description}</div><div class="amt">€${e.amount.toFixed(2)}</div><div class="date">${e.date}</div><div><span class="badge flagged">Flagged</span></div><button class="btn" onclick="inv('${e.id}')">Investigate</button></div>`).join("");document.getElementById("s1").textContent=es.length;document.getElementById("cnt").textContent=es.length}catch(e){document.getElementById("list").innerHTML="<div style='padding:2rem;text-align:center;color:var(--g500)'>Backend offline. Run: cd backend && python api.py</div>"}}
+function openPanel(){document.getElementById("panel").classList.add("open");document.getElementById("overlay").classList.add("open")}
+function closePanel(){document.getElementById("panel").classList.remove("open");document.getElementById("overlay").classList.remove("open")}
+async function inv(id){cur=id;openPanel();document.getElementById("body").innerHTML="<div class='spinner'></div><p style='text-align:center;color:var(--g500)'>Running multi-agent investigation...</p>";document.getElementById("actions").style.display="none";try{const r=await fetch(API+"/investigate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({expense_id:id})});const d=await r.json();if(d.result)render(d.result)}catch(e){document.getElementById("body").innerHTML="<p>Error loading results.</p>"}}
+function render(r){const c=r.confidence_score>=0.7?"hi":r.confidence_score>=0.4?"me":"lo";let h=`<div class="sec"><h3>AI Explanation</h3><div class="box">${r.explanation}</div></div>`;h+=`<div class="sec"><h3>Assessment</h3><div class="grid">`;h+=`<div class="card"><div class="ring ${c}"><div class="n">${Math.round(r.confidence_score*100)}%</div><div class="t">Conf</div></div></div>`;h+=`<div class="card"><div class="lbl">Risk Level</div><div class="val"><span class="risk ${r.risk_level}">${r.risk_level}</span></div></div>`;h+=`<div class="card"><div class="lbl">Action</div><div class="val" style="font-size:.8rem">${r.suggested_action.replace("_"," ")}</div></div></div></div>`;h+=`<div class="sec"><h3>Key Facts</h3><ul class="facts">${r.key_facts.map(f=>`<li>${f}</li>`).join("")}</ul></div>`;h+=`<div class="sec"><h3>Agent Findings</h3>`;r.agent_findings.forEach(f=>{h+=`<div class="agent"><div class="agent-hdr"><span class="agent-name">${f.agent_name}</span><span class="agent-type">${f.finding_type}</span></div><div class="agent-body"><p>${f.summary}</p><div class="agent-meta"><span>Confidence: ${Math.round(f.confidence*100)}%</span><span>Relevance: ${Math.round(f.relevance_score*100)}%</span></div></div></div>`});h+=`</div>`;h+=`<div class="sec"><h3>Investigation Time</h3><div class="box">Completed in ${r.investigation_time_seconds}s</div></div>`;document.getElementById("body").innerHTML=h;document.getElementById("actions").style.display="flex"}
+async function approve(){try{await fetch(API+"/approve/"+cur,{method:"POST"});document.getElementById("s3").textContent=parseInt(document.getElementById("s3").textContent)+1;closePanel();load()}catch(e){alert("Error approving")}}
+async function reject(){try{await fetch(API+"/reject/"+cur,{method:"POST"});document.getElementById("s4").textContent=parseInt(document.getElementById("s4").textContent)+1;closePanel();load()}catch(e){alert("Error rejecting")}}
+async function review(){document.getElementById("s2").textContent=parseInt(document.getElementById("s2").textContent)+1;closePanel()}
+load();
+</script>
+</body>
+</html>
