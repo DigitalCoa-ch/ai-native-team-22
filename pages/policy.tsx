@@ -88,8 +88,13 @@ export default function Policy() {
               {item.label}
             </Link>
           ))}
-        </nav>
-        <div className="sidebar-bottom">
+                    <span className="sidebar-section-label">Employee</span>
+            <Link href="/submit-expense" className="nav-item">
+              <NavIcon name="plus" />
+              Submit Expense
+            </Link>
+          </nav>
+          <div className="sidebar-bottom">
           <div className="sidebar-user">
             <div className="user-avatar"><span>EC</span></div>
             <div className="user-info">
