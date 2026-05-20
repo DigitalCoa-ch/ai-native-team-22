@@ -71,15 +71,16 @@ export default function Investigations() {
   const { expenses } = useExpenses();
   const stats = {
     total: expenses.length,
-    approved: expenses.filter((e) => e.status === 'approved').length,
-    pending: expenses.filter((e) => e.status === 'pending').length,
-    denied: expenses.filter((e) => e.status === 'denied').length,
+    approved: expenses.filter((e) => (e.status || 'pending') === 'approved').length,
+    pending: expenses.filter((e) => (e.status || 'pending') === 'pending').length,
+    denied: expenses.filter((e) => (e.status || 'pending') === 'denied').length,
   };
 
   const filteredExpenses = expenses.filter((e) => {
-    if (activeTab === 'Auto-Approved') return e.status === 'approved';
-    if (activeTab === 'Human Review') return e.status === 'pending';
-    if (activeTab === 'Denied') return e.status === 'denied';
+    const status = e.status || 'pending';
+    if (activeTab === 'Auto-Approved') return status === 'approved';
+    if (activeTab === 'Human Review') return status === 'pending';
+    if (activeTab === 'Denied') return status === 'denied';
     return false;
   });
 

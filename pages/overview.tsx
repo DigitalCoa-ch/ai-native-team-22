@@ -8,9 +8,9 @@ export default function Overview() {
   const high = expenses.filter((e) => e.confidence === 'HIGH').length;
   const medium = expenses.filter((e) => e.confidence === 'MEDIUM').length;
   const low = expenses.filter((e) => e.confidence === 'LOW').length;
-  const approved = expenses.filter((e) => e.status === 'approved').length;
-  const review = expenses.filter((e) => e.status === 'pending').length;
-  const denied = expenses.filter((e) => e.status === 'denied').length;
+  const approved = expenses.filter((e) => (e.status || 'pending') === 'approved').length;
+  const review = expenses.filter((e) => (e.status || 'pending') === 'pending').length;
+  const denied = expenses.filter((e) => (e.status || 'pending') === 'denied').length;
 
   const statsCards = [
     { label: 'Total Expenses', value: total, color: 'var(--color-text-muted)', bg: 'var(--bg-stat-box)' },
