@@ -6,10 +6,10 @@ export type ExpenseEntry = {
   date: string;
   category: string;
   description: string;
-  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+  confidence: string;
   confidenceScore: number;
-  color: 'green' | 'amber' | 'rose';
-  suggestedAction: 'approve' | 'needs_human_review' | 'denied';
+  color: string;
+  suggestedAction: string;
   reasoningChain: string;
   context: {
     calendar: string | null;
@@ -18,5 +18,5 @@ export type ExpenseEntry = {
     policy: string;
   };
   isNew?: boolean;
-  status?: 'pending' | 'approved' | 'denied';
+  status?: string;
 };

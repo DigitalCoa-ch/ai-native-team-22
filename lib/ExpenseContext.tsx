@@ -2,13 +2,18 @@ import React, { createContext, useContext } from 'react';
 import { useExpenseStore } from './store';
 import { ExpenseEntry } from './types';
 
-type StoreContextType = ReturnType<typeof useExpenseStore>;
+type ExpenseStore = ReturnType<typeof useExpenseStore>;
 
-const ExpenseContext = createContext<StoreContextType | null>(null);
+const ExpenseContext = createContext<ExpenseStore | null>(null);
 
-export function ExpenseProvider({ children }: { children: React.ReactNode }) {
+interface ExpenseProviderProps {
+  children: React.ReactNode;
+  initialExpenses: ExpenseEntry[];
+}
+
+export function ExpenseProvider({ children, initialExpenses }: ExpenseProviderProps) {
   return (
-    <ExpenseContext.Provider value={useExpenseStore()}>
+    <ExpenseContext.Provider value={useExpenseStore(initialExpenses)}>
       {children}
     </ExpenseContext.Provider>
   );
