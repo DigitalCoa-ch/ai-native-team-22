@@ -101,7 +101,7 @@ export default function Overview() {
           <div className="card wide">
             <h3 className="card-title">Recent Activity</h3>
             <div className="activity-list">
-              {expenses.slice(0, 4).map((e) => (
+              {expenses.slice(-7).reverse().map((e) => (
                 <div key={e.id} className="activity-row">
                   <div className={`activity-dot ${e.color}`} />
                   <div className="activity-info">
