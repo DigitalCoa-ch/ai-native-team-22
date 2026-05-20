@@ -71,17 +71,16 @@ export default function Investigations() {
   const { expenses } = useExpenses();
   const stats = {
     total: expenses.length,
-    green: expenses.filter((e) => e.color === 'green').length,
-    amber: expenses.filter((e) => e.color === 'amber').length,
-    rose: expenses.filter((e) => e.color === 'rose').length,
+    approved: expenses.filter((e) => e.status === 'approved').length,
+    pending: expenses.filter((e) => e.status === 'pending').length,
+    denied: expenses.filter((e) => e.status === 'denied').length,
   };
 
   const filteredExpenses = expenses.filter((e) => {
-    if (e.status && e.status !== 'pending') return false;
-    if (activeTab === 'Auto-Approved') return e.confidence === 'HIGH';
-    if (activeTab === 'Human Review') return e.confidence === 'MEDIUM' || e.confidence === 'LOW';
-    if (activeTab === 'Denied') return false;
-    return true;
+    if (activeTab === 'Auto-Approved') return e.status === 'approved';
+    if (activeTab === 'Human Review') return e.status === 'pending';
+    if (activeTab === 'Denied') return e.status === 'denied';
+    return false;
   });
 
   return (
@@ -95,27 +94,27 @@ export default function Investigations() {
         <div className="summary-cards">
           <div className="summary-card green">
             <div className="summary-card-header">
-              <span className="summary-card-label">HIGH RISK</span>
+              <span className="summary-card-label">AUTO-APPROVED</span>
               <div className="summary-card-icon"><NavIcon name="check" /></div>
             </div>
-            <div className="summary-card-number">{stats.green}</div>
-            <div className="summary-card-subtitle">Clear to process</div>
+            <div className="summary-card-number">{stats.approved}</div>
+            <div className="summary-card-subtitle">Policy-compliant</div>
           </div>
           <div className="summary-card amber">
             <div className="summary-card-header">
-              <span className="summary-card-label">MEDIUM RISK</span>
+              <span className="summary-card-label">HUMAN REVIEW</span>
               <div className="summary-card-icon"><NavIcon name="eye" /></div>
             </div>
-            <div className="summary-card-number">{stats.amber}</div>
-            <div className="summary-card-subtitle">Review recommended</div>
+            <div className="summary-card-number">{stats.pending}</div>
+            <div className="summary-card-subtitle">Policy violations</div>
           </div>
           <div className="summary-card rose">
             <div className="summary-card-header">
-              <span className="summary-card-label">LOW RISK</span>
+              <span className="summary-card-label">DENIED</span>
               <div className="summary-card-icon"><NavIcon name="alert" /></div>
             </div>
-            <div className="summary-card-number">{stats.rose}</div>
-            <div className="summary-card-subtitle">Priority investigation</div>
+            <div className="summary-card-number">{stats.denied}</div>
+            <div className="summary-card-subtitle">Rejected</div>
           </div>
         </div>
         <div className="segmented-wrapper">

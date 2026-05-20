@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useExpenses } from '../lib/ExpenseContext';
+import { evaluateExpense } from '../lib/policyEngine';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -44,6 +45,7 @@ const POLICY_LIMITS: Record<string, string> = {
 export default function SubmitExpense() {
   const [submitted, setSubmitted] = useState(false);
   const [amountError, setAmountError] = useState('');
+  const [lastResult, setLastResult] = useState<ReturnType<typeof evaluateExpense> | null>(null);
   const [form, setForm] = useState({
     employeeName: '', employeeEmail: '', department: '',
     category: '', amount: '', currency: 'EUR',
@@ -65,12 +67,15 @@ export default function SubmitExpense() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amountError) return;
-    // Determine risk level based on amount vs policy limit
-    const limit = parseFloat(POLICY_LIMITS[form.category] || '0');
-    const amount = parseFloat(form.amount);
-    const score = amount <= limit * 0.6 ? 85 : amount <= limit * 0.9 ? 55 : 25;
-    const confidence: 'HIGH' | 'MEDIUM' | 'LOW' = score >= 70 ? 'HIGH' : score >= 40 ? 'MEDIUM' : 'LOW';
-    const color: 'green' | 'amber' | 'rose' = confidence === 'HIGH' ? 'green' : confidence === 'MEDIUM' ? 'amber' : 'rose';
+    // Evaluate expense against real policies
+    const policyResult = evaluateExpense({
+      employeeName: form.employeeName,
+      department: form.department,
+      category: form.category,
+      amount: form.amount,
+      businessPurpose: form.businessPurpose,
+      description: form.description,
+    });
     addExpense({
       employee: form.employeeName,
       amount: form.amount,
@@ -78,23 +83,16 @@ export default function SubmitExpense() {
       date: form.date,
       category: form.category,
       description: form.description,
-      confidence,
-      confidenceScore: score,
-      color,
-      suggestedAction: confidence === 'HIGH' ? 'approve' : 'needs_human_review',
-      reasoningChain: confidence === 'HIGH'
-        ? `Amount ${currencySymbol}${form.amount} is within the ${currencySymbol}${limit} policy limit for ${form.category}. Submitted by ${form.employeeName}.`
-        : confidence === 'MEDIUM'
-        ? `Expense of ${currencySymbol}${form.amount} for ${form.category} requires human review. Amount is near or exceeds policy limit of ${currencySymbol}${limit}.`
-        : `CRITICAL: Expense of ${currencySymbol}${form.amount} for ${form.category} significantly exceeds policy limit of ${currencySymbol}${limit}. Flagged for investigation.`,
-      context: {
-        calendar: null,
-        email: null,
-        history: `First expense for ${form.employeeName} in ${form.category} category`,
-        policy: `${form.category} policy limit: ${currencySymbol}${limit}`,
-      },
+      confidence: policyResult.confidence,
+      confidenceScore: policyResult.confidence === 'HIGH' ? 85 : policyResult.confidence === 'MEDIUM' ? 55 : 25,
+      color: policyResult.color,
+      suggestedAction: policyResult.suggestedAction,
+      reasoningChain: policyResult.reasoningChain,
+      context: policyResult.context,
       isNew: true,
+      status: policyResult.status === 'auto_approved' ? 'approved' : 'pending',
     });
+    setLastResult(policyResult);
     setSubmitted(true);
   };
 
@@ -126,7 +124,7 @@ export default function SubmitExpense() {
           <div className="success-card">
             <div className="success-icon"><NavIcon name="check" /></div>
             <h2 className="success-title">Expense Submitted</h2>
-            <p className="success-desc">Your claim for <strong>{currencySymbol}{form.amount}</strong> has been received and is pending review.</p>
+            <p className="success-desc">Your claim for <strong>{currencySymbol}{form.amount}</strong> has been {lastResult?.status === 'auto_approved' ? 'automatically approved' : 'received and is pending review'}.</p>
             <p className="success-ref">Reference: EXP-2026-{String(Math.floor(Math.random() * 9000) + 1000)}</p>
             <div className="success-actions">
               <button className="btn-primary" onClick={() => { setSubmitted(false); setForm({ employeeName: '', employeeEmail: '', department: '', category: '', amount: '', currency: 'EUR', date: '', description: '', vendor: '', attendees: '', businessPurpose: '' }); }}>Submit Another</button>
