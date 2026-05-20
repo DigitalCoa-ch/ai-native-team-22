@@ -1,0 +1,269 @@
+{
+  "nextId": 13,
+  "entries": [
+    {
+      "id": 1,
+      "employee": "Sarah Chen",
+      "amount": "380",
+      "currency": "€",
+      "date": "2026-03-15",
+      "category": "Restaurant",
+      "description": "Client dinner — MegaCorp contract discussion at Le Bernardin",
+      "confidence": "HIGH",
+      "confidenceScore": 85,
+      "color": "green",
+      "suggestedAction": "approve",
+      "reasoningChain": "Expense aligns with documented client meeting (6:30 PM dinner following 2PM Q1 Pipeline Review). Amount €380 is within €400 policy limit. Employee has clean compliance history with 3 similar approved expenses.",
+      "context": {
+        "calendar": "Client meeting: MegaCorp GmbH, 6:30-9:00 PM at Le Bernardin",
+        "email": "Booking confirmation + client email thread (Feb 20-Mar 18)",
+        "history": "3 similar expenses in 6 months, avg €320, all approved",
+        "policy": "EMEA entertainment policy: €400 limit per person, receipt required"
+      },
+      "isNew": false,
+      "status": "approved"
+    },
+    {
+      "id": 2,
+      "employee": "James Rodriguez",
+      "amount": "520",
+      "currency": "€",
+      "date": "2026-03-22",
+      "category": "Accommodation",
+      "description": "Emergency hotel — Original flight cancelled due to weather",
+      "confidence": "MEDIUM",
+      "confidenceScore": 55,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "High-value expense (€520) exceeds policy limit (€300/night) but justified by emergency circumstance. Flight cancellation documented via airline email. Missing manager approval on record. Unusual pattern warrants human review.",
+      "context": {
+        "calendar": "No scheduled travel on this date (business trip ended March 20)",
+        "email": "Flight cancellation notice from United Airlines (March 22, 8:47 AM)",
+        "history": "First emergency accommodation claim in 24 months",
+        "policy": "Emergency travel expenses allowed with manager approval. Hotel limit: €300/night"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "employee": "Maria Schmidt",
+      "amount": "85",
+      "currency": "€",
+      "date": "2026-03-08",
+      "category": "Transportation",
+      "description": "Airport taxi — Schiphol Airport to Amsterdam office",
+      "confidence": "LOW",
+      "confidenceScore": 25,
+      "color": "rose",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "CRITICAL: Duplicate submission detected. Same receipt image was submitted on Feb 28 (EXP-2026-0029, €85, approved) and again on March 8. No supporting email documentation. Potential fraud case.",
+      "context": {
+        "calendar": "Business trip: Client meetings in Amsterdam (March 6-8)",
+        "email": null,
+        "history": "Only taxi expense on record for this employee",
+        "policy": "Receipt required for taxi expenses over €50. Duplicate submissions prohibited."
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "employee": "Alex Kumar",
+      "amount": "290",
+      "currency": "€",
+      "date": "2026-03-18",
+      "category": "Restaurant",
+      "description": "Lunch meeting with vendor — TechFlow Inc partnership discussion",
+      "confidence": "MEDIUM",
+      "confidenceScore": 55,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "Expense requires policy clarification. Contractor status triggers different approval rules (VP pre-approval required per EXT-2024-03). Amount €290 is reasonable. Recommend routing to VP.",
+      "context": {
+        "calendar": "Meeting: 'Vendor discussion' 12:00-1:30 PM",
+        "email": null,
+        "history": "Employee is contractor (not full-time ACME employee) — 6 months on record",
+        "policy": "Contractor entertainment requires VP pre-approval. Internal policy: EXT-2024-03"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "employee": "Olivia Martin",
+      "amount": "247",
+      "currency": "€",
+      "date": "2026-04-02",
+      "category": "Restaurant",
+      "description": "Client lunch with Nordex team after product roadmap presentation",
+      "confidence": "MEDIUM",
+      "confidenceScore": 60,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "Expense of €247 for 4 attendees (€61.75/person) is within the €400/person policy limit for EMEA entertainment. However, attendee count warrants verification. Amount is reasonable for a client-facing team.",
+      "context": {
+        "calendar": "Product roadmap presentation — Nordex team meeting, 12:00-2:00 PM",
+        "email": "Follow-up email from Nordex project manager confirming attendance (Apr 2)",
+        "history": "3 previous Restaurant expenses in 12 months, avg €210, all approved",
+        "policy": "EMEA entertainment policy: €400/person limit, receipt required"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "employee": "Daniel Weber",
+      "amount": "64",
+      "currency": "€",
+      "date": "2026-04-04",
+      "category": "Transportation",
+      "description": "Airport transfer for investor meeting in Frankfurt",
+      "confidence": "HIGH",
+      "confidenceScore": 88,
+      "color": "green",
+      "suggestedAction": "approve",
+      "reasoningChain": "Transportation expense of €64 is well within the €100/trip policy limit for TRN-2024-05. Documented investor meeting in Frankfurt with calendar confirmation. Clean compliance history.",
+      "context": {
+        "calendar": "Investor meeting: Frankfurt, 10:00 AM — 12:00 PM",
+        "email": "Meeting agenda and confirmation from CFO office (Apr 3)",
+        "history": "4 Transportation expenses in 12 months, avg €58, all approved",
+        "policy": "Transportation policy TRN-2024-05: €100/trip limit, receipt required"
+      },
+      "isNew": false,
+      "status": "approved"
+    },
+    {
+      "id": 7,
+      "employee": "Priya Nair",
+      "amount": "318",
+      "currency": "€",
+      "date": "2026-04-06",
+      "category": "Accommodation",
+      "description": "One-night stay for EMEA campaign kickoff after late client dinner",
+      "confidence": "MEDIUM",
+      "confidenceScore": 58,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "Accommodation expense of €318 slightly exceeds the €300/night emergency travel limit but is justified by a late-running client dinner that made same-day travel impractical. No manager pre-approval on record.",
+      "context": {
+        "calendar": "EMEA campaign kickoff — Amsterdam, 9:00 AM — 6:00 PM (Apr 6)",
+        "email": "Client dinner confirmation and follow-up (Apr 5)",
+        "history": "2 Accommodation expenses in 12 months, avg €295, both approved",
+        "policy": "Emergency travel policy TRV-2024-02: €300/night limit, manager pre-approval required over limit"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 8,
+      "employee": "Luca Rossi",
+      "amount": "142",
+      "currency": "€",
+      "date": "2026-04-09",
+      "category": "Office Supplies",
+      "description": "Laptop accessories, adapters, and meeting supplies for regional office setup",
+      "confidence": "HIGH",
+      "confidenceScore": 91,
+      "color": "green",
+      "suggestedAction": "approve",
+      "reasoningChain": "Office supplies expense of €142 is within the €150/item policy limit for EMP-2024-01. Regional office setup is a documented business need with procurement approval. Standard vendor (Staples) with receipt.",
+      "context": {
+        "calendar": null,
+        "email": "Procurement approval email for regional office setup (Apr 7)",
+        "history": "6 Office Supplies expenses in 12 months, avg €118, all approved",
+        "policy": "Office supplies policy EMP-2024-01: €150/item limit, receipt required"
+      },
+      "isNew": false,
+      "status": "approved"
+    },
+    {
+      "id": 9,
+      "employee": "Hannah Fischer",
+      "amount": "412",
+      "currency": "€",
+      "date": "2026-04-11",
+      "category": "Restaurant",
+      "description": "Client dinner for strategic renewal discussion with EMEA partner",
+      "confidence": "MEDIUM",
+      "confidenceScore": 78,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "CRITICAL: Expense of €412 slightly exceeds the €400/person EMEA entertainment policy limit. Client dinner for 3 attendees (€137.33/person) is very close to the policy ceiling. Attendee count of 3 requires verification against booking confirmation.",
+      "context": {
+        "calendar": "Strategic renewal discussion — EMEA partner, 7:00-10:00 PM",
+        "email": "Meeting brief and agenda from Sales Director (Apr 10)",
+        "history": "5 Restaurant expenses in 12 months, avg €340, 4 approved, 1 partial",
+        "policy": "EMEA entertainment policy EMP-2024-01: €400/person limit, receipt required"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 10,
+      "employee": "Miguel Santos",
+      "amount": "91",
+      "currency": "€",
+      "date": "2026-04-14",
+      "category": "Transportation",
+      "description": "Train station to office transfer after delayed arrival",
+      "confidence": "HIGH",
+      "confidenceScore": 89,
+      "color": "green",
+      "suggestedAction": "approve",
+      "reasoningChain": "Transportation expense of €91 is within the €100/trip policy limit for TRN-2024-05. Delayed arrival documented. Standard taxi fare for train-to-office transfer with receipt.",
+      "context": {
+        "calendar": null,
+        "email": null,
+        "history": "3 Transportation expenses in 12 months, avg €72, all approved",
+        "policy": "Transportation policy TRN-2024-05: €100/trip limit, receipt required"
+      },
+      "isNew": false,
+      "status": "approved"
+    },
+    {
+      "id": 11,
+      "employee": "Emma Laurent",
+      "amount": "285",
+      "currency": "€",
+      "date": "2026-04-16",
+      "category": "Accommodation",
+      "description": "Overnight stay for recruitment panel and interview day",
+      "confidence": "MEDIUM",
+      "confidenceScore": 62,
+      "color": "amber",
+      "suggestedAction": "needs_human_review",
+      "reasoningChain": "Accommodation expense of €285 is within the €300/night emergency travel limit for TRV-2024-02. Recruitment panel documented with HR Director approval. However, this is not a documented emergency travel situation, so human review is warranted.",
+      "context": {
+        "calendar": "Recruitment panel — Paris office, 9:00 AM — 5:00 PM (Apr 16)",
+        "email": "HR Director approval for overnight stay (Apr 14)",
+        "history": "1 previous Accommodation expense in 12 months, €275, approved",
+        "policy": "Emergency travel policy TRV-2024-02: €300/night limit, manager approval required"
+      },
+      "isNew": false,
+      "status": "pending"
+    },
+    {
+      "id": 12,
+      "employee": "Tom Andersson",
+      "amount": "176",
+      "currency": "€",
+      "date": "2026-04-18",
+      "category": "Restaurant",
+      "description": "Vendor negotiation lunch with supply chain partner",
+      "confidence": "HIGH",
+      "confidenceScore": 87,
+      "color": "green",
+      "suggestedAction": "approve",
+      "reasoningChain": "Restaurant expense of €176 for 2 attendees (€88/person) is well within the €400/person EMEA entertainment policy limit. Vendor negotiation documented with calendar entry. Standard business meal with receipt.",
+      "context": {
+        "calendar": "Vendor negotiation: Supply chain partner, 12:30-2:00 PM",
+        "email": "Vendor confirmation and agenda (Apr 17)",
+        "history": "4 Restaurant expenses in 12 months, avg €155, all approved",
+        "policy": "EMEA entertainment policy EMP-2024-01: €400/person limit, receipt required"
+      },
+      "isNew": false,
+      "status": "approved"
+    }
+  ]
+}

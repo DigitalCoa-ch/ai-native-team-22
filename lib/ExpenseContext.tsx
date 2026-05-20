@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react';
-import { useExpenseStore, ExpenseEntry } from './store';
+import { useExpenseStore } from './store';
+import { ExpenseEntry } from './types';
 
 type StoreContextType = ReturnType<typeof useExpenseStore>;
 
