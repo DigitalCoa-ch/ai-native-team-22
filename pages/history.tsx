@@ -48,25 +48,41 @@ export default function History() {
   const { expenses } = useExpenses();
   const [filter, setFilter] = useState('All');
   const filters = ['All', 'Approved', 'Rejected', 'Under Review'];
-  // Merge live expenses with static history (live first, then history)
-  const merged = [
-    ...expenses.map((e) => {
-      const rawStatus = e.status || 'pending';
-      return {
-        id: `EXP-2026-${String(e.id).padStart(4, '0')}`,
-        employee: e.employee,
-        amount: e.amount,
-        currency: e.currency,
-        date: e.date,
-        category: e.category,
-        status: rawStatus === 'approved' ? 'Approved' : rawStatus === 'denied' ? 'Rejected' : 'Under Review',
-        decision: rawStatus === 'approved' ? 'approve' : rawStatus === 'denied' ? 'reject' : 'review',
-        decisionBy: e.isNew ? 'Pending' : 'AI Agent',
-        decisionTime: e.isNew ? '—' : '2.3s',
-      };
-    }),
-    ...HISTORY_DATA,
-  ];
+  // Merge: live expenses add NEW records beyond HISTORY_DATA's range (ids 1-20).
+  // Use a Map keyed by expense ID so live expenses with matching IDs override
+  // HISTORY_DATA entries — this prevents duplicate rows for the same expense
+  // while correctly filtering by status.
+  interface MergedRow {
+    id: string;
+    employee: string;
+    amount: string;
+    currency: string;
+    date: string;
+    category: string;
+    status: string;
+    decision: string;
+    decisionBy: string;
+    decisionTime: string;
+  }
+  const mergedMap = new Map<string, MergedRow>();
+  for (const h of HISTORY_DATA) mergedMap.set(h.id, h as MergedRow);
+  for (const e of expenses) {
+    const id = `EXP-2026-${String(e.id).padStart(4, '0')}`;
+    const rawStatus = e.status || 'pending';
+    mergedMap.set(id, {
+      id,
+      employee: e.employee,
+      amount: e.amount,
+      currency: e.currency,
+      date: e.date,
+      category: e.category,
+      status: rawStatus === 'approved' ? 'Approved' : rawStatus === 'denied' ? 'Rejected' : 'Under Review',
+      decision: rawStatus === 'approved' ? 'approve' : rawStatus === 'denied' ? 'reject' : 'review',
+      decisionBy: e.isNew ? 'Pending' : 'AI Agent',
+      decisionTime: e.isNew ? '—' : '2.3s',
+    });
+  }
+  const merged = Array.from(mergedMap.values());
   const filtered = filter === 'All' ? merged : merged.filter((h) => h.status === filter);
 
   return (
