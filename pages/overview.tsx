@@ -8,20 +8,21 @@ export default function Overview() {
   const high = expenses.filter((e) => e.confidence === 'HIGH').length;
   const medium = expenses.filter((e) => e.confidence === 'MEDIUM').length;
   const low = expenses.filter((e) => e.confidence === 'LOW').length;
-  const approved = expenses.filter((e) => e.suggestedAction === 'approve').length;
-  const review = expenses.filter((e) => e.suggestedAction === 'needs_human_review').length;
+  const approved = expenses.filter((e) => e.status === 'approved').length;
+  const review = expenses.filter((e) => e.status === 'pending').length;
+  const denied = expenses.filter((e) => e.status === 'denied').length;
 
   const statsCards = [
-    { label: 'Total Flagged', value: total, color: '#5c6478', bg: '#f0f2f5' },
-    { label: 'High Risk', value: high, color: '#059669', bg: '#d1fae5' },
-    { label: 'Medium Risk', value: medium, color: '#b45309', bg: '#fef3c7' },
-    { label: 'Low Risk', value: low, color: '#be123c', bg: '#ffe4e6' },
+    { label: 'Total Expenses', value: total, color: 'var(--color-text-muted)', bg: 'var(--bg-stat-box)' },
+    { label: 'High Confidence', value: high, color: 'var(--color-summary-card-number-green)', bg: 'var(--bg-badge-green)' },
+    { label: 'Medium Confidence', value: medium, color: 'var(--color-summary-card-number-amber)', bg: 'var(--bg-badge-amber)' },
+    { label: 'Low Confidence', value: low, color: 'var(--color-summary-card-number-rose)', bg: 'var(--bg-badge-rose)' },
   ];
 
   const actionCards = [
-    { label: 'Auto Approved', value: approved, sub: 'Straight-through processing', color: '#059669', bg: '#d1fae5' },
-    { label: 'Human Review', value: review, sub: 'Requires controller decision', color: '#b45309', bg: '#fef3c7' },
-    { label: 'Denied', value: 0, sub: 'Flagged for rejection', color: '#be123c', bg: '#ffe4e6' },
+    { label: 'Auto Approved', value: approved, sub: 'Policy-compliant · No action needed', color: 'var(--color-summary-card-number-green)', bg: 'var(--bg-badge-green)' },
+    { label: 'Human Review', value: review, sub: 'Policy violations found', color: 'var(--color-summary-card-number-amber)', bg: 'var(--bg-badge-amber)' },
+    { label: 'Denied', value: denied, sub: 'Rejected by controller', color: 'var(--color-summary-card-number-rose)', bg: 'var(--bg-badge-rose)' },
   ];
 
   return (
@@ -75,7 +76,7 @@ export default function Overview() {
         </div>
         <div className="content-grid">
           <div className="card">
-            <h3 className="card-title">Risk Distribution</h3>
+            <h3 className="card-title">Confidence Distribution</h3>
             <div className="stat-grid">
               {statsCards.map((s) => (
                 <div key={s.label} className="stat-box">

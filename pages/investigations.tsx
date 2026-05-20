@@ -147,7 +147,7 @@ export default function Investigations() {
                   <p className="expense-description">{expense.description}</p>
                   <div className="expense-footer">
                     <div className="risk-section">
-                      <span className="risk-label">Risk Score {expense.confidenceScore}%</span>
+                      <span className="risk-label">Confidence {expense.confidenceScore}%</span>
                       <div className="risk-bar-bg">
                         <div className="risk-bar-fill" style={{ width: `${expense.confidenceScore}%` }} />
                       </div>

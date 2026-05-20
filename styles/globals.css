@@ -86,9 +86,17 @@
   --color-risk-label-rose: #be123c;
   --color-btn-investigate-border: #e2e5ed;
   --color-btn-investigate: #5c6478;
+  --color-segmented-active-text: #ffffff;
   --color-btn-investigate-hover: #1e1e3a;
   --color-btn-investigate-hover-border: #c4c9d9;
   --color-btn-investigate-hover-bg: #f8f9fc;
+
+  --color-bar-green: #6ee7b7;
+  --color-bar-green-light: #a7f3d0;
+  --color-bar-amber: #fcd34d;
+  --color-bar-amber-light: #fde68a;
+  --color-bar-rose: #fda4af;
+  --color-bar-rose-light: #fecdd3;
 }
 
 [data-theme="dark"] {
@@ -178,9 +186,17 @@
   --color-risk-label-rose: #fda4af;
   --color-btn-investigate-border: #2d3a52;
   --color-btn-investigate: #a3abbf;
+  --color-segmented-active-text: #c8d0e0;
   --color-btn-investigate-hover: #e8eaf0;
   --color-btn-investigate-hover-border: #4a5678;
   --color-btn-investigate-hover-bg: #1e2a4a;
+
+  --color-bar-green: #059669;
+  --color-bar-green-light: #065f46;
+  --color-bar-amber: #d97706;
+  --color-bar-amber-light: #92400e;
+  --color-bar-rose: #be123c;
+  --color-bar-rose-light: #9f1239;
 }
 
 /* ===== BASE RESET ===== */
@@ -528,7 +544,7 @@ html, body {
 
 .segmented-control {
   display: inline-flex;
-  background: #eef0f5;
+  background: var(--bg-segmented);
   border-radius: 12px;
   padding: 4px;
   gap: 2px;
@@ -548,13 +564,13 @@ html, body {
 }
 
 .segmented-tab:hover:not(.active) {
-  color: #4a5568;
-  background: rgba(255,255,255,0.5);
+  color: var(--color-text-secondary);
+  background: rgba(255,255,255,0.6);
 }
 
 .segmented-tab.active {
   background: var(--bg-segmented-active);
-  color: var(--color-page-title);
+  color: var(--color-segmented-active-text);
   font-weight: 600;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
 }
@@ -1270,7 +1286,7 @@ html, body {
 
 .inv-header-left { flex: 1; }
 
-.inv-risk-badge {
+.inv-confidence-badge {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 20px;
@@ -1279,9 +1295,9 @@ html, body {
   letter-spacing: 0.07em;
   margin-bottom: 10px;
 }
-.inv-risk-badge.green { background: var(--bg-badge-green); color: var(--color-summary-card-number-green); }
-.inv-risk-badge.amber { background: var(--bg-badge-amber); color: var(--color-summary-card-number-amber); }
-.inv-risk-badge.rose { background: var(--bg-badge-rose); color: var(--color-summary-card-number-rose); }
+.inv-confidence-badge.green { background: var(--bg-badge-green); color: var(--color-summary-card-number-green); }
+.inv-confidence-badge.amber { background: var(--bg-badge-amber); color: var(--color-summary-card-number-amber); }
+.inv-confidence-badge.rose { background: var(--bg-badge-rose); color: var(--color-summary-card-number-rose); }
 
 .inv-employee {
   font-size: 20px;

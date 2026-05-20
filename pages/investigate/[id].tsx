@@ -128,7 +128,7 @@ export default function Investigate() {
         {/* Header Card */}
         <div className="inv-header">
           <div className="inv-header-left">
-            <div className={`inv-risk-badge ${expense.color}`}>{expense.confidence} RISK</div>
+            <div className={`inv-confidence-badge ${expense.color}`}>{expense.confidence} CONFIDENCE</div>
             <h2 className="inv-employee">{expense.employee}</h2>
             <p className="inv-desc">{expense.description}</p>
           </div>
