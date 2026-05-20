@@ -19,6 +19,7 @@ export const EXPENSE_DATA = [
       history: '3 similar expenses in 6 months, avg €320, all approved',
       policy: 'EMEA entertainment policy: €400 limit per person, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ export const EXPENSE_DATA = [
       history: 'First emergency accommodation claim in 24 months',
       policy: 'Emergency travel expenses allowed with manager approval. Hotel limit: €300/night',
     },
+    status: 'pending',
   },
   {
     id: 3,
@@ -61,6 +63,7 @@ export const EXPENSE_DATA = [
       history: 'Only taxi expense on record for this employee',
       policy: 'Receipt required for taxi expenses over €50. Duplicate submissions prohibited.',
     },
+    status: 'denied',
   },
   {
     id: 4,
@@ -103,6 +106,7 @@ export const EXPENSE_DATA = [
       history: '3 previous Restaurant expenses in 12 months, avg €210, all approved',
       policy: 'EMEA entertainment policy: €400/person limit, receipt required',
     },
+    status: 'pending',
   },
   {
     id: 6,
@@ -124,6 +128,7 @@ export const EXPENSE_DATA = [
       history: '4 Transportation expenses in 12 months, avg €58, all approved',
       policy: 'Transportation policy TRN-2024-05: €100/trip limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 7,
@@ -145,6 +150,7 @@ export const EXPENSE_DATA = [
       history: '2 Accommodation expenses in 12 months, avg €295, both approved',
       policy: 'Emergency travel policy TRV-2024-02: €300/night limit, manager pre-approval required over limit',
     },
+    status: 'pending',
   },
   {
     id: 8,
@@ -166,6 +172,7 @@ export const EXPENSE_DATA = [
       history: '6 Office Supplies expenses in 12 months, avg €118, all approved',
       policy: 'Office supplies policy EMP-2024-01: €150/item limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 9,
@@ -187,6 +194,7 @@ export const EXPENSE_DATA = [
       history: '5 Restaurant expenses in 12 months, avg €340, 4 approved, 1 partial',
       policy: 'EMEA entertainment policy EMP-2024-01: €400/person limit, receipt required',
     },
+    status: 'pending',
   },
   {
     id: 10,
@@ -208,6 +216,7 @@ export const EXPENSE_DATA = [
       history: '3 Transportation expenses in 12 months, avg €72, all approved',
       policy: 'Transportation policy TRN-2024-05: €100/trip limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 11,
@@ -229,6 +238,7 @@ export const EXPENSE_DATA = [
       history: '1 previous Accommodation expense in 12 months, €275, approved',
       policy: 'Emergency travel policy TRV-2024-02: €300/night limit, manager approval required',
     },
+    status: 'pending',
   },
   {
     id: 12,
@@ -250,6 +260,7 @@ export const EXPENSE_DATA = [
       history: '4 Restaurant expenses in 12 months, avg €155, all approved',
       policy: 'EMEA entertainment policy EMP-2024-01: €400/person limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 13,
@@ -271,6 +282,7 @@ export const EXPENSE_DATA = [
       history: '2 previous Training expenses in 12 months, avg €450, both approved',
       policy: 'Training policy EMP-2024-01: €800/activity limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 14,
@@ -355,6 +367,7 @@ export const EXPENSE_DATA = [
       history: '4 previous Restaurant expenses in 12 months, avg €120, all approved',
       policy: 'EMEA entertainment policy EMP-2024-01: €400/person limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 18,
@@ -376,6 +389,7 @@ export const EXPENSE_DATA = [
       history: '3 previous Transportation expenses in 12 months, avg €380, all approved (economy)',
       policy: 'Travel policy TRV-2024-02: €500 limit, CFO pre-approval required for business class upgrade',
     },
+    status: 'pending',
   },
   {
     id: 19,
@@ -397,6 +411,7 @@ export const EXPENSE_DATA = [
       history: '6 Transportation expenses in 12 months, avg €82, all approved',
       policy: 'Transportation policy TRN-2024-05: €100/trip limit, receipt required',
     },
+    status: 'approved',
   },
   {
     id: 20,
@@ -418,6 +433,7 @@ export const EXPENSE_DATA = [
       history: '4 previous Restaurant expenses in 12 months, avg €260, all approved',
       policy: 'EMEA entertainment policy: €400/person limit, CFO pre-approval required over €400',
     },
+    status: 'pending',
   },
 ];
 
