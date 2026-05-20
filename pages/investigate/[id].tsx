@@ -18,6 +18,7 @@ function NavIcon({ name }: { name: string }) {
     mail: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>,
     history: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>,
     file: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>,
+    plus: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ width: 17, height: 17 }}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>,
   };
   return <>{icons[name] || null}</>;
 }
@@ -51,13 +52,13 @@ function Sidebar() {
             {item.label}
           </Link>
         ))}
-                  <span className="sidebar-section-label">Employee</span>
-            <Link href="/submit-expense" className="nav-item">
-              <NavIcon name="plus" />
-              Submit Expense
-            </Link>
-          </nav>
-          <div className="sidebar-bottom">
+        <span className="sidebar-section-label">Employee</span>
+        <Link href="/submit-expense" className="nav-item">
+          <NavIcon name="plus" />
+          Submit Expense
+        </Link>
+      </nav>
+      <div className="sidebar-bottom">
         <div className="sidebar-user">
           <div className="user-avatar"><span>EC</span></div>
           <div className="user-info">
@@ -73,7 +74,7 @@ function Sidebar() {
 export default function Investigate() {
   const router = useRouter();
   const { id } = router.query;
-  const { expenses } = useExpenses();
+  const { expenses, updateExpenseStatus } = useExpenses();
   const expense = expenses.find((e) => e.id === Number(id));
 
   if (!expense) {
@@ -92,6 +93,16 @@ export default function Investigate() {
       </div>
     );
   }
+
+  const handleApprove = () => {
+    updateExpenseStatus(expense.id, 'approved');
+    router.push('/investigations');
+  };
+
+  const handleReject = () => {
+    updateExpenseStatus(expense.id, 'denied');
+    router.push('/investigations');
+  };
 
   const agents = [
     { name: 'Calendar Agent', icon: 'calendar', data: expense.context.calendar },
@@ -165,13 +176,13 @@ export default function Investigate() {
         <div className="action-card">
           <h3 className="card-section-title">✅ Controller Actions</h3>
           <div className="action-buttons">
-            <button className="action-btn approve" onClick={() => alert('✅ Expense approved. Sent to accounting.')}>
+            <button className="action-btn approve" onClick={handleApprove}>
               ✓ Approve
             </button>
-            <button className="action-btn review" onClick={() => alert('👀 Marked for human review.')}>
+            <button className="action-btn review" onClick={() => router.push('/investigations')}>
               👀 Mark for Review
             </button>
-            <button className="action-btn deny" onClick={() => alert('❌ Expense rejected. Sent back to employee.')}>
+            <button className="action-btn deny" onClick={handleReject}>
               ✗ Reject
             </button>
           </div>

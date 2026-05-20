@@ -1240,3 +1240,165 @@ html, body {
   width: 100%;
   overflow: hidden;
 }
+
+/* ===== INVESTIGATE PAGE ===== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--color-text-primary); }
+
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin: 24px 32px 0;
+  max-width: 964px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-card);
+}
+
+.inv-header-left { flex: 1; }
+
+.inv-risk-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  margin-bottom: 10px;
+}
+.inv-risk-badge.green { background: var(--bg-badge-green); color: var(--color-summary-card-number-green); }
+.inv-risk-badge.amber { background: var(--bg-badge-amber); color: var(--color-summary-card-number-amber); }
+.inv-risk-badge.rose { background: var(--bg-badge-rose); color: var(--color-summary-card-number-rose); }
+
+.inv-employee {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-page-title);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.inv-desc {
+  font-size: 13.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.inv-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.inv-amount {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-expense-amount);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.inv-category {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.inv-date {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+/* Dark mode for action-card and action buttons */
+.action-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 0 32px 16px;
+  max-width: 964px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-card);
+}
+.action-buttons { display: flex; gap: 12px; }
+.action-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  font-family: inherit;
+}
+.action-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.action-btn:active { transform: translateY(0); }
+.action-btn.approve { background: var(--bg-badge-green); color: var(--color-summary-card-number-green); }
+.action-btn.approve:hover { opacity: 1; }
+.action-btn.review { background: var(--bg-badge-amber); color: var(--color-summary-card-number-amber); }
+.action-btn.review:hover { opacity: 1; }
+.action-btn.deny { background: var(--bg-badge-rose); color: var(--color-summary-card-number-rose); }
+.action-btn.deny:hover { opacity: 1; }
+
+/* Reasoning and agent cards dark mode */
+.reasoning-card {
+  background: var(--color-reasoning-bg);
+  border: 1px solid var(--color-reasoning-border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 16px 32px 0;
+  max-width: 964px;
+}
+.reasoning-header { margin-bottom: 10px; }
+.reasoning-title { font-size: 14px; font-weight: 700; color: var(--color-reasoning-title); }
+.reasoning-text { font-size: 13.5px; color: var(--color-reasoning-text); line-height: 1.65; }
+
+.agents-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 16px 32px 0;
+  max-width: 964px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-card);
+}
+.card-section-title { font-size: 14px; font-weight: 700; color: var(--color-page-title); margin-bottom: 14px; }
+.agents-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.agent-card {
+  background: var(--color-agent-card);
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-agent-card-border);
+}
+.agent-card.green .agent-header { color: var(--color-summary-card-number-green); }
+.agent-card.amber .agent-header { color: var(--color-summary-card-number-amber); }
+.agent-card.rose .agent-header { color: var(--color-summary-card-number-rose); }
+.agent-header { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.agent-data { font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.time-card {
+  background: var(--color-time-bg);
+  border: 1px solid var(--color-time-border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 16px 32px 0;
+  max-width: 964px;
+}
+.time-inner { text-align: center; }
+.time-value { display: block; font-size: 36px; font-weight: 700; color: var(--color-time-value); }
+.time-label { font-size: 13px; color: var(--color-time-label); }
+.time-saving { display: block; font-size: 12px; color: var(--color-time-label); margin-top: 4px; font-weight: 600; }

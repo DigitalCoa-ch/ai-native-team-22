@@ -11,7 +11,7 @@ export type ExpenseEntry = {
   confidence: 'HIGH' | 'MEDIUM' | 'LOW';
   confidenceScore: number;
   color: 'green' | 'amber' | 'rose';
-  suggestedAction: 'approve' | 'needs_human_review';
+  suggestedAction: 'approve' | 'needs_human_review' | 'denied';
   reasoningChain: string;
   context: {
     calendar: string | null;
@@ -20,12 +20,13 @@ export type ExpenseEntry = {
     policy: string;
   };
   isNew?: boolean;
+  status?: 'pending' | 'approved' | 'denied';
 };
 
 let _nextId = 100;
 
 function makeExpense(entry: Omit<ExpenseEntry, 'id'>): ExpenseEntry {
-  return { ...entry, id: _nextId++ };
+  return { status: 'pending', ...entry, id: _nextId++ };
 }
 
 export function useExpenseStore() {
@@ -116,5 +117,17 @@ export function useExpenseStore() {
     setExpenses((prev) => [makeExpense(entry), ...prev]);
   }, []);
 
-  return { expenses, addExpense };
+  const removeExpense = useCallback((id: number) => {
+    setExpenses((prev) => prev.filter((e) => e.id !== id));
+  }, []);
+
+  const updateExpenseStatus = useCallback((id: number, status: 'approved' | 'denied') => {
+    setExpenses((prev) =>
+      prev.map((e) =>
+        e.id === id ? { ...e, status, suggestedAction: status === 'approved' ? 'approve' : 'denied' } : e
+      )
+    );
+  }, []);
+
+  return { expenses, addExpense, removeExpense, updateExpenseStatus };
 }
