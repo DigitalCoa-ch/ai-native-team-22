@@ -48,21 +48,32 @@ export default function History() {
   const filters = ['All', 'Approved', 'Rejected', 'Under Review'];
   // Merge live expenses with static history (live first, then history)
   const merged = [
-    ...expenses.map((e) => ({
-      id: `EXP-2026-${String(e.id).padStart(4, '0')}`,
-      employee: e.employee,
-      amount: e.amount,
-      currency: e.currency,
-      date: e.date,
-      category: e.category,
-      status: e.status === 'approved' ? 'Approved' : e.status === 'denied' ? 'Rejected' : 'Under Review',
-      decision: e.status === 'approved' ? 'approve' : e.status === 'denied' ? 'reject' : 'review',
-      decisionBy: e.isNew ? 'Pending' : 'AI Agent',
-      decisionTime: e.isNew ? '—' : '2.3s',
-    })),
+    ...expenses.map((e) => {
+      const rawStatus = e.status || 'pending';
+      return {
+        id: `EXP-2026-${String(e.id).padStart(4, '0')}`,
+        employee: e.employee,
+        amount: e.amount,
+        currency: e.currency,
+        date: e.date,
+        category: e.category,
+        status: rawStatus === 'approved' ? 'Approved' : rawStatus === 'denied' ? 'Rejected' : 'Under Review',
+        decision: rawStatus === 'approved' ? 'approve' : rawStatus === 'denied' ? 'reject' : 'review',
+        decisionBy: e.isNew ? 'Pending' : 'AI Agent',
+        decisionTime: e.isNew ? '—' : '2.3s',
+      };
+    }),
     ...HISTORY_DATA,
   ];
-  const filtered = filter === 'All' ? merged : merged.filter((h) => h.status === filter);
+  const filterMap: Record<string, string> = {
+    Approved: 'approved',
+    Rejected: 'denied',
+    'Under Review': 'pending',
+  };
+  const filtered = filter === 'All' ? merged : merged.filter((h) => {
+    const rawStatus = h.decision === 'approve' ? 'approved' : h.decision === 'reject' ? 'denied' : 'pending';
+    return rawStatus === filterMap[filter];
+  });
 
   return (
     <div className="page-layout">
