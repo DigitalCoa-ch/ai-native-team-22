@@ -67,15 +67,7 @@ export default function History() {
     }),
     ...HISTORY_DATA,
   ];
-  const filterMap: Record<string, string> = {
-    Approved: 'approved',
-    Rejected: 'denied',
-    'Under Review': 'pending',
-  };
-  const filtered = filter === 'All' ? merged : merged.filter((h) => {
-    const rawStatus = (h.decision === 'approve' ? 'approved' : h.decision === 'reject' ? 'denied' : 'pending');
-    return rawStatus === filterMap[filter];
-  });
+  const filtered = filter === 'All' ? merged : merged.filter((h) => h.status === filter);
 
   return (
     <div className="page-layout">
