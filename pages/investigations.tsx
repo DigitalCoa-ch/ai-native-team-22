@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { EXPENSE_DATA } from '../lib/data';
+import { useExpenses } from '../lib/ExpenseContext';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -34,7 +34,7 @@ function Sidebar({ active }: { active: string }) {
           </svg>
         </div>
         <div className="sidebar-logo-text">
-          <span className="sidebar-logo-title">ExpenseContext AI</span>
+          <span className="sidebar-logo-title">ExpenseContext</span>
           <span className="sidebar-logo-subtitle">Compliance Studio</span>
         </div>
       </div>
@@ -67,14 +67,15 @@ function Sidebar({ active }: { active: string }) {
 
 export default function Investigations() {
   const [activeTab, setActiveTab] = useState('Human Review');
+  const { expenses } = useExpenses();
   const stats = {
-    total: EXPENSE_DATA.length,
-    green: EXPENSE_DATA.filter((e) => e.color === 'green').length,
-    amber: EXPENSE_DATA.filter((e) => e.color === 'amber').length,
-    rose: EXPENSE_DATA.filter((e) => e.color === 'rose').length,
+    total: expenses.length,
+    green: expenses.filter((e) => e.color === 'green').length,
+    amber: expenses.filter((e) => e.color === 'amber').length,
+    rose: expenses.filter((e) => e.color === 'rose').length,
   };
 
-  const filteredExpenses = EXPENSE_DATA.filter((e) => {
+  const filteredExpenses = expenses.filter((e) => {
     if (activeTab === 'Auto-Approved') return e.confidence === 'HIGH';
     if (activeTab === 'Human Review') return e.confidence === 'MEDIUM' || e.confidence === 'LOW';
     if (activeTab === 'Denied') return false;

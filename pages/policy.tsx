@@ -70,7 +70,7 @@ export default function Policy() {
             </svg>
           </div>
           <div className="sidebar-logo-text">
-            <span className="sidebar-logo-title">ExpenseContext AI</span>
+            <span className="sidebar-logo-title">ExpenseContext</span>
             <span className="sidebar-logo-subtitle">Compliance Studio</span>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useTheme } from '../lib/ThemeContext';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -16,6 +17,7 @@ export default function Settings() {
   const [autoApprove, setAutoApprove] = useState(true);
   const [fraudDetect, setFraudDetect] = useState(true);
   const [emailNotify, setEmailNotify] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="page-layout">
@@ -27,7 +29,7 @@ export default function Settings() {
             </svg>
           </div>
           <div className="sidebar-logo-text">
-            <span className="sidebar-logo-title">ExpenseContext AI</span>
+            <span className="sidebar-logo-title">ExpenseContext</span>
             <span className="sidebar-logo-subtitle">Compliance Studio</span>
           </div>
         </div>
@@ -67,6 +69,20 @@ export default function Settings() {
           <p className="page-subtitle">System configuration and preferences</p>
         </div>
         <div className="settings-sections">
+          <div className="settings-section">
+            <h3 className="settings-section-title">Appearance</h3>
+            <div className="settings-card">
+              <div className="setting-row">
+                <div className="setting-info">
+                  <span className="setting-label">Dark mode</span>
+                  <span className="setting-desc">Switch between light and dark theme</span>
+                </div>
+                <button className={`toggle ${theme === 'dark' ? 'on' : ''}`} onClick={toggleTheme}>
+                  <span className="toggle-thumb" />
+                </button>
+              </div>
+            </div>
+          </div>
           <div className="settings-section">
             <h3 className="settings-section-title">Automation</h3>
             <div className="settings-card">
@@ -110,7 +126,7 @@ export default function Settings() {
               <div className="setting-row">
                 <div className="setting-info">
                   <span className="setting-label">Version</span>
-                  <span className="setting-desc">ExpenseContext AI v1.0.0</span>
+                  <span className="setting-desc">ExpenseContext v1.0.0</span>
                 </div>
                 <span className="setting-value">1.0.0</span>
               </div>

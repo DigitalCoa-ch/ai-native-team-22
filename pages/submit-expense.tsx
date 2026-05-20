@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useExpenses } from '../lib/ExpenseContext';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -49,6 +50,7 @@ export default function SubmitExpense() {
     date: '', description: '', vendor: '',
     attendees: '', businessPurpose: '',
   });
+  const { addExpense } = useExpenses();
 
   const currencySymbol = form.currency === 'EUR' ? '€' : form.currency === 'USD' ? '$' : '£';
 
@@ -63,6 +65,36 @@ export default function SubmitExpense() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amountError) return;
+    // Determine risk level based on amount vs policy limit
+    const limit = parseFloat(POLICY_LIMITS[form.category] || '0');
+    const amount = parseFloat(form.amount);
+    const score = amount <= limit * 0.6 ? 85 : amount <= limit * 0.9 ? 55 : 25;
+    const confidence: 'HIGH' | 'MEDIUM' | 'LOW' = score >= 70 ? 'HIGH' : score >= 40 ? 'MEDIUM' : 'LOW';
+    const color: 'green' | 'amber' | 'rose' = confidence === 'HIGH' ? 'green' : confidence === 'MEDIUM' ? 'amber' : 'rose';
+    addExpense({
+      employee: form.employeeName,
+      amount: form.amount,
+      currency: currencySymbol,
+      date: form.date,
+      category: form.category,
+      description: form.description,
+      confidence,
+      confidenceScore: score,
+      color,
+      suggestedAction: confidence === 'HIGH' ? 'approve' : 'needs_human_review',
+      reasoningChain: confidence === 'HIGH'
+        ? `Amount ${currencySymbol}${form.amount} is within the ${currencySymbol}${limit} policy limit for ${form.category}. Submitted by ${form.employeeName}.`
+        : confidence === 'MEDIUM'
+        ? `Expense of ${currencySymbol}${form.amount} for ${form.category} requires human review. Amount is near or exceeds policy limit of ${currencySymbol}${limit}.`
+        : `CRITICAL: Expense of ${currencySymbol}${form.amount} for ${form.category} significantly exceeds policy limit of ${currencySymbol}${limit}. Flagged for investigation.`,
+      context: {
+        calendar: null,
+        email: null,
+        history: `First expense for ${form.employeeName} in ${form.category} category`,
+        policy: `${form.category} policy limit: ${currencySymbol}${limit}`,
+      },
+      isNew: true,
+    });
     setSubmitted(true);
   };
 
@@ -75,7 +107,7 @@ export default function SubmitExpense() {
               <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 18, height: 18, color: '#a5b4fc' }}><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
             </div>
             <div className="sidebar-logo-text">
-              <span className="sidebar-logo-title">ExpenseContext AI</span>
+              <span className="sidebar-logo-title">ExpenseContext</span>
               <span className="sidebar-logo-subtitle">Compliance Studio</span>
             </div>
           </div>
@@ -114,7 +146,7 @@ export default function SubmitExpense() {
             <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 18, height: 18, color: '#a5b4fc' }}><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
           <div className="sidebar-logo-text">
-            <span className="sidebar-logo-title">ExpenseContext AI</span>
+            <span className="sidebar-logo-title">ExpenseContext</span>
             <span className="sidebar-logo-subtitle">Compliance Studio</span>
           </div>
         </div>

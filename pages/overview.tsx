@@ -1,14 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import { EXPENSE_DATA } from '../lib/data';
+import { useExpenses } from '../lib/ExpenseContext';
 
 export default function Overview() {
-  const total = EXPENSE_DATA.length;
-  const high = EXPENSE_DATA.filter((e) => e.confidence === 'HIGH').length;
-  const medium = EXPENSE_DATA.filter((e) => e.confidence === 'MEDIUM').length;
-  const low = EXPENSE_DATA.filter((e) => e.confidence === 'LOW').length;
-  const approved = EXPENSE_DATA.filter((e) => e.suggestedAction === 'approve').length;
-  const review = EXPENSE_DATA.filter((e) => e.suggestedAction === 'needs_human_review').length;
+  const { expenses } = useExpenses();
+  const total = expenses.length;
+  const high = expenses.filter((e) => e.confidence === 'HIGH').length;
+  const medium = expenses.filter((e) => e.confidence === 'MEDIUM').length;
+  const low = expenses.filter((e) => e.confidence === 'LOW').length;
+  const approved = expenses.filter((e) => e.suggestedAction === 'approve').length;
+  const review = expenses.filter((e) => e.suggestedAction === 'needs_human_review').length;
 
   const statsCards = [
     { label: 'Total Flagged', value: total, color: '#5c6478', bg: '#f0f2f5' },
@@ -33,7 +34,7 @@ export default function Overview() {
             </svg>
           </div>
           <div className="sidebar-logo-text">
-            <span className="sidebar-logo-title">ExpenseContext AI</span>
+            <span className="sidebar-logo-title">ExpenseContext</span>
             <span className="sidebar-logo-subtitle">Compliance Studio</span>
           </div>
         </div>
@@ -99,7 +100,7 @@ export default function Overview() {
           <div className="card wide">
             <h3 className="card-title">Recent Activity</h3>
             <div className="activity-list">
-              {EXPENSE_DATA.slice(0, 4).map((e) => (
+              {expenses.slice(0, 4).map((e) => (
                 <div key={e.id} className="activity-row">
                   <div className={`activity-dot ${e.color}`} />
                   <div className="activity-info">

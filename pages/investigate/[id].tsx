@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { EXPENSE_DATA } from '../../lib/data';
+import { useExpenses } from '../../lib/ExpenseContext';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -39,7 +39,7 @@ function Sidebar() {
           </svg>
         </div>
         <div className="sidebar-logo-text">
-          <span className="sidebar-logo-title">ExpenseContext AI</span>
+          <span className="sidebar-logo-title">ExpenseContext</span>
           <span className="sidebar-logo-subtitle">Compliance Studio</span>
         </div>
       </div>
@@ -73,7 +73,8 @@ function Sidebar() {
 export default function Investigate() {
   const router = useRouter();
   const { id } = router.query;
-  const expense = EXPENSE_DATA.find((e) => e.id === Number(id));
+  const { expenses } = useExpenses();
+  const expense = expenses.find((e) => e.id === Number(id));
 
   if (!expense) {
     return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { EXPENSE_DATA } from '../lib/data';
+import { useExpenses } from '../lib/ExpenseContext';
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -27,9 +27,26 @@ const HISTORY_DATA = [
 ];
 
 export default function History() {
+  const { expenses } = useExpenses();
   const [filter, setFilter] = useState('All');
   const filters = ['All', 'Approved', 'Rejected', 'Under Review'];
-  const filtered = filter === 'All' ? HISTORY_DATA : HISTORY_DATA.filter((h) => h.status === filter);
+  // Merge live expenses with static history (live first, then history)
+  const merged = [
+    ...expenses.map((e) => ({
+      id: `EXP-2026-${String(e.id).padStart(4, '0')}`,
+      employee: e.employee,
+      amount: e.amount,
+      currency: e.currency,
+      date: e.date,
+      category: e.category,
+      status: e.suggestedAction === 'approve' ? 'Approved' : e.suggestedAction === 'needs_human_review' ? 'Under Review' : 'Rejected',
+      decision: e.suggestedAction,
+      decisionBy: e.isNew ? 'Pending' : 'AI Agent',
+      decisionTime: e.isNew ? '—' : '2.3s',
+    })),
+    ...HISTORY_DATA,
+  ];
+  const filtered = filter === 'All' ? merged : merged.filter((h) => h.status === filter);
 
   return (
     <div className="page-layout">
@@ -41,7 +58,7 @@ export default function History() {
             </svg>
           </div>
           <div className="sidebar-logo-text">
-            <span className="sidebar-logo-title">ExpenseContext AI</span>
+            <span className="sidebar-logo-title">ExpenseContext</span>
             <span className="sidebar-logo-subtitle">Compliance Studio</span>
           </div>
         </div>
@@ -73,7 +90,7 @@ export default function History() {
       <main className="main-content">
         <div className="page-header">
           <h1 className="page-title">History</h1>
-          <p className="page-subtitle">{HISTORY_DATA.length} processed expenses</p>
+          <p className="page-subtitle">{merged.length} processed expenses</p>
         </div>
         <div style={{ padding: '0 32px', maxWidth: 964, margin: '0 auto' }}>
           <div className="filter-tabs">
